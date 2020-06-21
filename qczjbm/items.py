@@ -13,3 +13,11 @@ class QczjbmItem(scrapy.Item):
     images = scrapy.Field()
     image_urls = scrapy.Field()
     arctic = scrapy.Field()
+    pass
+
+class PornographicItem(scrapy.Item):
+    files = scrapy.Field()
+    file_urls = scrapy.Field()
+    videoName=scrapy.Field()
+    atUrl = scrapy.Field()
+    pass

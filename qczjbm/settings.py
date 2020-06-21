@@ -23,7 +23,7 @@ NEWSPIDER_MODULE = 'qczjbm.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -54,9 +54,10 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'qczjbm.middlewares.QczjbmDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   # 'qczjbm.middlewares.QczjbmDownloaderMiddleware': 543,
+   'qczjbm.middlewares.pornographicUseragentDownloaderMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -69,6 +70,8 @@ DEFAULT_REQUEST_HEADERS = {
 ITEM_PIPELINES = {
    # 'qczjbm.pipelines.QczjbmPipeline': 300,
     'qczjbm.pipelines.QczjbmImagePipeline': 300,
+    'qczjbm.pipelines.PornographicPipeline': 299,
+    # 'qczjbm.pipelines.PornographicFilesPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -94,3 +97,4 @@ AUTOTHROTTLE_DEBUG = False
 
 # 图片储存路径
 IMAGES_STORE=os.path.join(os.path.dirname(__file__), 'images')
+FILES_STORE =os.path.join(os.path.dirname(__file__), 'Video')

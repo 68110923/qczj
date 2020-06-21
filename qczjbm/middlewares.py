@@ -6,7 +6,7 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-
+import json
 
 class QczjbmSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -101,3 +101,16 @@ class QczjbmDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class pornographicUseragentDownloaderMiddleware:
+    def __init__(self):
+        with open('qczjbm/conf/fake_useragent.json','r') as f:
+            self.fake_useragent=json.loads(f.read())['browsers']
+    def process_request(self, request, spider):
+        import random
+        ua=random.choice(self.fake_useragent['chrome'])
+        request.headers['User-Agent']=ua
+
+
+
