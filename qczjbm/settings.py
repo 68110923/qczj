@@ -69,7 +69,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    # 'qczjbm.pipelines.QczjbmPipeline': 300,
-    'qczjbm.pipelines.QczjbmImagePipeline': 300,
+   #  'qczjbm.pipelines.QczjbmImagePipeline': 300,
     'qczjbm.pipelines.PornographicPipeline': 299,
     # 'qczjbm.pipelines.PornographicFilesPipeline': 300,
 }

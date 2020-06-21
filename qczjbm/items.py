@@ -21,3 +21,9 @@ class PornographicItem(scrapy.Item):
     videoName=scrapy.Field()
     atUrl = scrapy.Field()
     pass
+
+
+class DfvideoItem(scrapy.Item):
+    video_url = scrapy.Field()#视频源url
+    video_title = scrapy.Field()#视频标题
+    video_local_path = scrapy.Field()#视频本地存储路径

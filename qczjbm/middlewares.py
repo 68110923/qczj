@@ -103,7 +103,7 @@ class QczjbmDownloaderMiddleware:
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class pornographicUseragentDownloaderMiddleware:
+class pornographicUseragentDownloaderMiddleware(QczjbmDownloaderMiddleware):
     def __init__(self):
         with open('qczjbm/conf/fake_useragent.json','r') as f:
             self.fake_useragent=json.loads(f.read())['browsers']

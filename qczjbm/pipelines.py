@@ -42,25 +42,24 @@ class QczjbmImagePipeline(ImagesPipeline):
 class PornographicPipeline(object):
     def __init__(self):
         dbparams = {
-            'host':'127.0.0.1',
-            'port':3306,
-            'user':'root',
-            'password':'000578',
-            'database':'blog',
-            'charset':'utf8',
+            'host': '127.0.0.1',
+            'port': 3306,
+            'user': 'root',
+            'password': '000578',
+            'database': 'blog',
+            'charset': 'utf8',
         }
-        self.conn=pymysql.connect(**dbparams)
-        self.cursor =self.conn.cursor()
+        self.conn = pymysql.connect(**dbparams)
+        self.cursor = self.conn.cursor()
 
-
-    def process_item(self,item,spider):
+    def process_item(self, item, spider):
         _sql = 'insert into pornographic(files,file_urls,videoName,atUrl) values (%s,%s,%s,%s)'
-        self.cursor.execute(_sql,(item['files'],item['file_urls'][0],item['videoName'],item['atUrl']))
+        self.cursor.execute(_sql, (item['files'], item['file_urls'][0], item['videoName'], item['atUrl']))
         self.conn.commit()
         return item
-
-
-
+    def on_close(self):
+        self.cursor.close()
+        self.conn.close()
 
 
 # 下视频
@@ -76,3 +75,4 @@ class PornographicFilesPipeline(FilesPipeline):
         file_store = FILES_STORE
         image_path = os.path.join(file_store, videoName, '.mp4')
         return image_path
+
