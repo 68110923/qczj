@@ -54,6 +54,7 @@ class PornographicPipeline(object):
 
     def process_item(self, item, spider):
         _sql = 'insert into pornographic(files,file_urls,videoName,atUrl) values (%s,%s,%s,%s)'
+        print(item['videoName'], item['atUrl'])
         self.cursor.execute(_sql, (item['files'], item['file_urls'][0], item['videoName'], item['atUrl']))
         self.conn.commit()
         return item
@@ -76,3 +77,14 @@ class PornographicFilesPipeline(FilesPipeline):
         image_path = os.path.join(file_store, videoName, '.mp4')
         return image_path
 
+class doubantop250Pipeline(object):
+    def __init__(self):
+        import csv
+        self.f=open('./豆瓣top250.csv', 'w', encoding='utf-8',newline='')
+        self.csv_writer = csv.writer(self.f)
+        self.csv_writer.writerow(["电影名称", "导演主演", "评分", "评价人数", "介绍", "具体链接"])
+    def process_item(self, item, spider):
+        self.csv_writer.writerow([item['filmTitle'],item['synopsis'],item['graded'],item['gradedNum'],item['introduce'],item['url']])
+
+    def on_close(self):
+        self.f.close()

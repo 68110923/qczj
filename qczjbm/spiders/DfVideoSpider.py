@@ -16,8 +16,8 @@ import os
 
 class DfvideospiderSpider(CrawlSpider):
     name = 'DfVideoSpider'
-    allowed_domains = ['2263mk.com', 'busdlweb.com']
-    start_urls = ['https://www.2263mk.com/']
+    allowed_domains = ['49mm.xyz', 'busdlweb.com']
+    start_urls = ['https://www.49mm.xyz/']
 
     rules = (
         Rule(LinkExtractor(allow=r'正则表达式'), callback='parse_item', follow=True),

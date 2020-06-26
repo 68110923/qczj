@@ -70,8 +70,9 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    # 'qczjbm.pipelines.QczjbmPipeline': 300,
    #  'qczjbm.pipelines.QczjbmImagePipeline': 300,
-    'qczjbm.pipelines.PornographicPipeline': 299,
+   #  'qczjbm.pipelines.PornographicPipeline': 299,
     # 'qczjbm.pipelines.PornographicFilesPipeline': 300,
+    'qczjbm.pipelines.doubantop250Pipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

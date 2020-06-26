@@ -5,8 +5,8 @@ from qczjbm.items import PornographicItem
 
 class PornographicSpider(scrapy.Spider):
     name = 'pornographic'
-    allowed_domains = ['2263mk.com', 'busdlweb.com']
-    start_urls = ['https://www.2263mk.com/move/3/','https://www.2263mk.com/move/1/','https://www.2263mk.com/move/7/']
+    allowed_domains = ['49mm.xyz', 'busdlweb.com']
+    start_urls = ['https://www.49mm.xyz/move/3/','https://www.49mm.xyz/move/1/','https://www.49mm.xyz/move/7/']
 
     def parse(self, response):
         for pageUrl in response.selector.xpath('//select/option/@value').getall():
