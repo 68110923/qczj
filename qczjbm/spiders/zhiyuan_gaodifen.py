@@ -35,49 +35,49 @@ class ZhiyuanGaodifenSpider(scrapy.Spider):
         banxueleixing=''
         self.driver = self.public_global_browser()
         self.get('https://gkcx.eol.cn/linespecialty')
-        self.click(self.wait('xpath','//*[@id="root"]/div/div[1]/div/div/div/div/div[2]/div[3]/div/div[3]/p'))
-        self.click(self.wait('text','泉州市'))
-        time.sleep(1)
-        # for nianfen in ['2019','2018','2017']:
-        for nianfen in ['2017','2016','2015']:
-            for city in ['北京','天津','河北','河南','山东','山西','陕西','内蒙古','辽宁','吉林','黑龙江','上海','江苏',
-                         '安徽','江西','湖北','湖南','重庆','四川','贵州','云南','广东','广西','福建','甘肃','宁夏','新疆',
-                         '西藏','海南','浙江','青海']:
-                # for banxueleixing in ['普通本科','独立学院','专科（高职)','中外合作办学','其他']:
-                    # for zhuanyemenlei in ["哲学","经济学","法学","教育学","文学","历史学","理学","工学","农学","医学","管理学","艺术学","农林牧渔大类","资源环境与安全大类","能源动力与材料大类","土木建筑大类","水利大类","装备制造大类","生物与化工大类","轻工纺织大类","食品药品与粮食大类","交通运输大类","电子信息大类","医药卫生大类","财经商贸大类","旅游大类","文化艺术大类","新闻传播大类","教育与体育大类","公安与司法大类","公共管理与服务大类"]:
-                self.get(f'https://gkcx.eol.cn/linespecialty?province={city}&luqutype=&schoolyear={nianfen}&schoolpc=&recomschprop=&schoolflag=&argschtype={banxueleixing}&zytype={zhuanyemenlei}')
-                    # self.click(self.wait(XPATH['查询按钮'][0], XPATH['查询按钮'][1]), '查询')
-                    # self.click(self.wait(XPATH['全部按钮'][0], XPATH['全部按钮'][1]), '全部')
-                while True:
+        for i in ['南阳市','南京市']:
+            self.click(self.wait('xpath','//*[@id="root"]/div/div[1]/div/div/div/div/div[2]/div[3]/div/div[3]/p'))
+            self.click(self.wait('text',i))
+            time.sleep(1)
+            for nianfen in ['2019','2018','2017','2016','2015']:
+                for city in ['北京','天津','河北','河南','山东','山西','陕西','内蒙古','辽宁','吉林','黑龙江','上海','江苏',
+                             '安徽','江西','湖北','湖南','重庆','四川','贵州','云南','广东','广西','福建','甘肃','宁夏','新疆',
+                             '西藏','海南','浙江','青海']:
+                    # for banxueleixing in ['普通本科','独立学院','专科（高职)','中外合作办学','其他']:
+                        # for zhuanyemenlei in ["哲学","经济学","法学","教育学","文学","历史学","理学","工学","农学","医学","管理学","艺术学","农林牧渔大类","资源环境与安全大类","能源动力与材料大类","土木建筑大类","水利大类","装备制造大类","生物与化工大类","轻工纺织大类","食品药品与粮食大类","交通运输大类","电子信息大类","医药卫生大类","财经商贸大类","旅游大类","文化艺术大类","新闻传播大类","教育与体育大类","公安与司法大类","公共管理与服务大类"]:
+                    self.get(f'https://gkcx.eol.cn/linespecialty?province={city}&luqutype=&schoolyear={nianfen}&schoolpc=&recomschprop=&schoolflag=&argschtype={banxueleixing}&zytype={zhuanyemenlei}')
+                        # self.click(self.wait(XPATH['查询按钮'][0], XPATH['查询按钮'][1]), '查询')
+                        # self.click(self.wait(XPATH['全部按钮'][0], XPATH['全部按钮'][1]), '全部')
+                    while True:
 
-                    flig1 = True
-                    try:
-                        if self.read(self.wait(XPATH['判断是否有数据'][0], XPATH['判断是否有数据'][1],2)):
-                            html=etree.HTML(self.driver.page_source)
-                            for j in html.xpath('//*[@id="root"]/div/div[1]/div/div/div/div/div[3]/div[1]/div/div[1]/table/tbody/tr'):
-                                school_name = j.xpath('./td[1]/text()')[0]
-                                major_name = j.xpath('./td[2]/p/text()')[0]
-                                admissions_address = j.xpath('./td[3]/text()')[0]
-                                examinee_class = j.xpath('./td[4]/text()')[0]
-                                admission_to_the_batch = j.xpath('./td[5]/text()')[0]
-                                average_score = j.xpath('./td[6]/text()')[0]
-                                lowest_mark = j.xpath('./td[7]/text()')[0]
-                                yield ZhiyuanGaodifenItem(school_name=school_name, major_name=major_name,admissions_address=admissions_address,examinee_class=examinee_class,admission_to_the_batch=admission_to_the_batch,average_score=average_score,lowest_mark=lowest_mark,nianfen=nianfen,city=city,banxueleixing=banxueleixing,zhuanyemenlei=zhuanyemenlei)
-                    except:
-                        print('本页无数据')
-                        flig1=False
-                        break
-                    finally:
-                        if flig1:
-                            next_ye=self.read(self.driver.find_elements_by_xpath('//*[@id="root"]/div/div[1]/div/div/div/div/div[3]/div[1]/div/div[2]/ul/li')[-3],attr='class',js=False)
-                            if next_ye == 'none':
-                                self.click(self.driver.find_elements_by_xpath('//*[@id="root"]/div/div[1]/div/div/div/div/div[3]/div[1]/div/div[2]/ul/li')[-2],'下一页')
-                            elif next_ye == 'active':
-                                print('没有下一页了')
-                                break
-                            else:
-                                print(f'未知错误')
-                                break
+                        flig1 = True
+                        try:
+                            if self.read(self.wait(XPATH['判断是否有数据'][0], XPATH['判断是否有数据'][1],2)):
+                                html=etree.HTML(self.driver.page_source)
+                                for j in html.xpath('//*[@id="root"]/div/div[1]/div/div/div/div/div[3]/div[1]/div/div[1]/table/tbody/tr'):
+                                    school_name = j.xpath('./td[1]/text()')[0]
+                                    major_name = j.xpath('./td[2]/p/text()')[0]
+                                    admissions_address = j.xpath('./td[3]/text()')[0]
+                                    examinee_class = j.xpath('./td[4]/text()')[0]
+                                    admission_to_the_batch = j.xpath('./td[5]/text()')[0]
+                                    average_score = j.xpath('./td[6]/text()')[0]
+                                    lowest_mark = j.xpath('./td[7]/text()')[0]
+                                    yield ZhiyuanGaodifenItem(school_name=school_name, major_name=major_name,admissions_address=admissions_address,examinee_class=examinee_class,admission_to_the_batch=admission_to_the_batch,average_score=average_score,lowest_mark=lowest_mark,nianfen=nianfen,city=city,banxueleixing=banxueleixing,zhuanyemenlei=zhuanyemenlei)
+                        except:
+                            print('本页无数据')
+                            flig1=False
+                            break
+                        finally:
+                            if flig1:
+                                next_ye=self.read(self.driver.find_elements_by_xpath('//*[@id="root"]/div/div[1]/div/div/div/div/div[3]/div[1]/div/div[2]/ul/li')[-3],attr='class',js=False)
+                                if next_ye == 'none':
+                                    self.click(self.driver.find_elements_by_xpath('//*[@id="root"]/div/div[1]/div/div/div/div/div[3]/div[1]/div/div[2]/ul/li')[-2],'下一页')
+                                elif next_ye == 'active':
+                                    print('没有下一页了')
+                                    break
+                                else:
+                                    print(f'未知错误')
+                                    break
 
 
     def public_global_browser(self):
