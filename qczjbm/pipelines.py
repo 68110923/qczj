@@ -58,6 +58,7 @@ class PornographicPipeline(object):
         self.cursor.execute(_sql, (item['files'], item['file_urls'][0], item['videoName'], item['atUrl']))
         self.conn.commit()
         return item
+
     def on_close(self):
         self.cursor.close()
         self.conn.close()
@@ -77,14 +78,91 @@ class PornographicFilesPipeline(FilesPipeline):
         image_path = os.path.join(file_store, videoName, '.mp4')
         return image_path
 
+
 class doubantop250Pipeline(object):
     def __init__(self):
         import csv
-        self.f=open('./豆瓣top250.csv', 'w', encoding='utf-8',newline='')
+        self.f = open('./豆瓣top250.csv', 'w', encoding='utf-8', newline='')
         self.csv_writer = csv.writer(self.f)
         self.csv_writer.writerow(["电影名称", "导演主演", "评分", "评价人数", "介绍", "具体链接"])
+
     def process_item(self, item, spider):
-        self.csv_writer.writerow([item['filmTitle'],item['synopsis'],item['graded'],item['gradedNum'],item['introduce'],item['url']])
+        self.csv_writer.writerow(
+            [item['filmTitle'], item['synopsis'], item['graded'], item['gradedNum'], item['introduce'], item['url']])
 
     def on_close(self):
         self.f.close()
+
+
+class zhiyuanPipeline(object):
+    def __init__(self):
+        dbparams = {
+            'host': '127.0.0.1',
+            'port': 3306,
+            'user': 'root',
+            'password': '000578',
+            'database': 'blog',
+            'charset': 'utf8',
+        }
+        self.conn = pymysql.connect(**dbparams)
+        self.cursor = self.conn.cursor()
+
+    def process_item(self, item, spider):
+        _sql = 'insert into to_college(lot,lot_time,city) values (%s,%s,%s)'
+        print(item['lot'], item['lot_time'])
+        self.cursor.execute(_sql, (item['lot'], item['lot_time'], item['city']))
+        self.conn.commit()
+        return item
+
+    def on_close(self):
+        self.cursor.close()
+        self.conn.close()
+
+
+class zhiyuan_biaoPipeline(object):
+    def __init__(self):
+        dbparams = {
+            'host': '127.0.0.1',
+            'port': 3306,
+            'user': 'root',
+            'password': '000578',
+            'database': 'blog',
+            'charset': 'utf8',
+        }
+        self.conn = pymysql.connect(**dbparams)
+        self.cursor = self.conn.cursor()
+
+    def process_item(self, item, spider):
+        _sql = 'insert into specialty(zhuanye_bag_class,zhuanye_class,zhuanye_zhuanye) values (%s,%s,%s)'
+        print(item['zhuanye_bag_class'], item['zhuanye_class'], item['zhuanye_zhuanye'])
+        self.cursor.execute(_sql, (item['zhuanye_bag_class'], item['zhuanye_class'], item['zhuanye_zhuanye']))
+        self.conn.commit()
+        return item
+
+    def on_close(self):
+        self.cursor.close()
+        self.conn.close()
+
+
+class ZhiyuanGaodifenPipeline(object):
+    def __init__(self):
+        dbparams = {
+            'host': '127.0.0.1',
+            'port': 3306,
+            'user': 'root',
+            'password': '000578',
+            'database': 'blog',
+            'charset': 'utf8',
+        }
+        self.conn = pymysql.connect(**dbparams)
+        self.cursor = self.conn.cursor()
+
+    def process_item(self, item, spider):
+        _sql = "insert into chengjibiao(school_name,major_name,admissions_address,examinee_class,admission_to_the_batch,average_score,lowest_mark,nianfen,city,banxueleixing,zhuanyemenlei) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+        self.cursor.execute(_sql,(item['school_name'], item['major_name'], item['admissions_address'], item['examinee_class'],item['admission_to_the_batch'], item['average_score'], item['lowest_mark'], item['nianfen'], item['city'],item['banxueleixing'], item['zhuanyemenlei']))
+        self.conn.commit()
+        return item
+
+    def on_close(self):
+        self.cursor.close()
+        self.conn.close()

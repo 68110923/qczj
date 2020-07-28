@@ -72,7 +72,10 @@ ITEM_PIPELINES = {
    #  'qczjbm.pipelines.QczjbmImagePipeline': 300,
    #  'qczjbm.pipelines.PornographicPipeline': 299,
     # 'qczjbm.pipelines.PornographicFilesPipeline': 300,
-    'qczjbm.pipelines.doubantop250Pipeline': 300,
+    # 'qczjbm.pipelines.doubantop250Pipeline': 300,
+    # 'qczjbm.pipelines.zhiyuanPipeline': 300,
+    # 'qczjbm.pipelines.zhiyuan_biaoPipeline': 300,
+    'qczjbm.pipelines.ZhiyuanGaodifenPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
